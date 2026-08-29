@@ -13,16 +13,21 @@ if defined SRCURL (
     powershell -NoProfile -Command "$v=1; try{$r=[int]([regex]::Match((New-Object Net.WebClient).DownloadString('%SRCURL%/version.txt'),'\d+').Value)}catch{$r=$v}; [IO.File]::WriteAllText('%TEMP%\sasa_upd.tmp', $(if($r -gt $v){'1'}else{'0'}))" >nul 2>&1
     set /p NEED=<"%TEMP%\sasa_upd.tmp"
     if "!NEED!"=="1" (
-      echo [تحديث] فيه نسخة أحدث علي GitHub - بنزّلها أوتوماتيك...
-      powershell -NoProfile -Command "try{$wc=New-Object Net.WebClient; $wc.DownloadFile('%SRCURL%/SASAstart.cmd','%TEMP%\sasa_sta.tmp'); $wc.DownloadFile('%SRCURL%/SASAsource.txt','%TEMP%\sasa_src.tmp'); $wc.DownloadFile('%SRCURL%/version.txt','%TEMP%\sasa_ver.tmp')}catch{}" >nul 2>&1
-      if exist "%TEMP%\sasa_sta.tmp" (
-        copy /y "%TEMP%\sasa_sta.tmp" "%~dp0SASAstart.cmd" >nul 2>&1
-        copy /y "%TEMP%\sasa_src.tmp" "%~dp0SASAsource.txt" >nul 2>&1
-        copy /y "%TEMP%\sasa_ver.tmp" "%~dp0version.txt" >nul 2>&1
-        echo [تحديث] خلص - بنشغّل النسخة الجديدة...
-        start "" "%~f0" %*
-        exit /b
-      )
+      echo.
+      echo [تحديث] فيه نسخة أحدث من SASAstart علي GitHub.
+      set /p UP="تحب تنزّل التحديث وتشغّله؟ (اكتب y او n): "
+      if /i "!UP!"=="y" (
+        echo بنزّل التحديث...
+        powershell -NoProfile -Command "try{$wc=New-Object Net.WebClient; $wc.DownloadFile('%SRCURL%/SASAstart.cmd','%TEMP%\sasa_sta.tmp'); $wc.DownloadFile('%SRCURL%/SASAsource.txt','%TEMP%\sasa_src.tmp'); $wc.DownloadFile('%SRCURL%/version.txt','%TEMP%\sasa_ver.tmp')}catch{}" >nul 2>&1
+        if exist "%TEMP%\sasa_sta.tmp" (
+          copy /y "%TEMP%\sasa_sta.tmp" "%~dp0SASAstart.cmd" >nul 2>&1
+          copy /y "%TEMP%\sasa_src.tmp" "%~dp0SASAsource.txt" >nul 2>&1
+          copy /y "%TEMP%\sasa_ver.tmp" "%~dp0version.txt" >nul 2>&1
+          echo [تحديث] خلص - بنشغّل النسخة الجديدة...
+          start "" "%~f0" %*
+          exit /b
+        ) else ( echo [!] فشل التحميل - هنشغّل النسخة الحالية )
+      ) else ( echo تمام - هنشغّل النسخة الحالية من غير تحديث )
     )
   )
 )
