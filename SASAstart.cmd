@@ -4,6 +4,15 @@ setlocal EnableDelayedExpansion
 title SASAstart - تجهيز الجهاز للعب + تحديث أوتوماتيك
 color 0b
 
+echo   ____    _    ____    _
+echo  / ___|  / \  / ___|  / \
+echo  \___ \ / _ \ \___ \ / _ \
+echo   ___) / ___ \ ___) / ___ \
+echo  |____/_/   \_\____/_/   \_\
+echo.
+echo    discord : sasax9
+echo.
+
 :: ============ تحديث أوتوماتيك لـ SASAstart من GitHub ============
 set SA_VER=1
 set "SRCURL="
